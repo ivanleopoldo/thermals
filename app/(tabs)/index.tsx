@@ -1,5 +1,10 @@
-import { View } from 'react-native';
+import { View, Text } from 'react-native';
+import React from 'react';
 
-export default function App() {
-  return <View></View>;
+export default function Home() {
+  return (
+    <View>
+      <Text>Home</Text>
+    </View>
+  );
 }
