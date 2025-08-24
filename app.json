@@ -17,7 +17,17 @@
           "launchMode": "most-recent"
         }
       ],
-      "expo-web-browser"
+      "expo-web-browser",
+      "expo-font",
+      [
+        "react-native-ble-manager",
+        {
+          "isBleRequired": true,
+          "neverForLocation": true,
+          "companionDeviceEnabled": false,
+          "bluetoothAlwaysPermission": "Allow BLE DEMO APP to connect to bluetooth devices"
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,
@@ -31,14 +41,34 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.ivaintwc.thermals",
+      "infoPlist": {
+        "NSBluetoothAlwaysUsageDescription": "This app needs Bluetooth access to connect to receipt printers.",
+        "NSBluetoothPeripheralUsageDescription": "This app needs Bluetooth access to communicate with printers.",
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "package": "com.ivaintwc.thermals",
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN",
+        "android.permission.BLUETOOTH_CONNECT"
+      ]
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "232a87a2-1182-4bdb-aadd-6dcc46c9876c"
       }
     }
   }

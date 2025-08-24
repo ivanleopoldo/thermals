@@ -21,6 +21,7 @@
     "expo-constants": "~17.1.4",
     "expo-dev-client": "~5.2.4",
     "expo-dev-launcher": "^5.0.17",
+    "expo-font": "~13.3.2",
     "expo-linking": "~7.1.4",
     "expo-router": "~5.1.5",
     "expo-status-bar": "~2.2.3",
@@ -30,10 +31,14 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "0.79.5",
+    "react-native-ble-manager": "^12.1.5",
+    "react-native-bluetooth-escpos-printer": "^0.0.5",
+    "react-native-esc-pos-printer": "^4.4.3",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
+    "react-native-thermal-receipt-printer": "1.2.0-rc.2",
     "react-native-web": "^0.20.0"
   },
   "devDependencies": {
