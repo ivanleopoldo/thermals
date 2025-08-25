@@ -1,4 +1,4 @@
-import React, { useEffect, useState, createContext, ReactNode } from 'react';
+import React, { useEffect, useState, createContext, ReactNode, useCallback } from 'react';
 import { BLEPrinter, IBLEPrinter } from 'react-native-thermal-receipt-printer';
 
 export type TPrinter = {
@@ -9,6 +9,7 @@ type BLEPrinterContextType = {
   connectedPrinter: TPrinter | null;
   printers: TPrinter[];
   connectPrinter: (printer: TPrinter) => void;
+  startScan: () => void;
   disconnectPrinter: () => void;
   print: (content: string) => void;
 };
@@ -20,14 +21,13 @@ export function BLEPrinterProvider({ children }: { children: ReactNode }) {
   const [connectedPrinter, setConnectedPrinter] = useState<TPrinter | null>(null);
 
   useEffect(() => {
-    BLEPrinter.init().then(() => {
-      BLEPrinter.getDeviceList().then((v) => {
-        const scannedPrinters = v.map((p) => ({
-          ...p,
-          connected: false,
-        }));
-        setPrinters(scannedPrinters);
-      });
+    BLEPrinter.init();
+  }, []);
+
+  const startScan = useCallback(() => {
+    BLEPrinter.getDeviceList().then((devices) => {
+      const formattedDevices = devices.map((device) => ({ ...device, connected: false }));
+      setPrinters(formattedDevices);
     });
   }, []);
 
@@ -36,16 +36,23 @@ export function BLEPrinterProvider({ children }: { children: ReactNode }) {
       .then(() => {
         const connected = { ...printer, connected: true };
         setConnectedPrinter(connected);
-        console.log('[BLEPrinter.connectPrinter] connected', connected);
+        console.log('[BLEPrinter.connectPrinter] success', connected);
       })
       .catch((err) => {
-        console.error('[BLEPrinter.connectPrinter] error', err);
+        console.error('[BLEPrinter.connectPrinter] failed', err);
+        setConnectedPrinter(null);
       });
   };
 
   const disconnectPrinter = () => {
-    BLEPrinter.closeConn();
-    setConnectedPrinter(null);
+    return BLEPrinter.closeConn()
+      .then(() => {
+        setConnectedPrinter(null);
+        console.log('[BLEPrinter.disconnectPrinter] success');
+      })
+      .catch((err) => {
+        console.error('[BLEPrinter.disconnectPrinter] failed', err);
+      });
   };
 
   const print = (content: string) => {
@@ -60,6 +67,7 @@ export function BLEPrinterProvider({ children }: { children: ReactNode }) {
       value={{
         connectedPrinter,
         printers,
+        startScan,
         connectPrinter,
         disconnectPrinter,
         print,
