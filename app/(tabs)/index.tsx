@@ -1,14 +1,12 @@
 import { View, Text, Button } from 'react-native';
-import { BLEPrinter } from 'react-native-thermal-receipt-printer';
+import { useBLEPrinter } from '~/lib/hooks/useBLEPrinter';
 
 export default function Home() {
-  const printTest = () => {
-    BLEPrinter.printText('<C>Hello Printer!</C>\n');
-  };
+  const { print } = useBLEPrinter();
   return (
     <View>
       <Text>Home</Text>
-      <Button title="Test Print" onPress={() => printTest()} />
+      <Button title="Test Print" onPress={() => print('<C>hello welcome</C>')} />
     </View>
   );
 }
